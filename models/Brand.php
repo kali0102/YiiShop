@@ -48,6 +48,7 @@ class Brand extends \yii\db\ActiveRecord {
             'thumb' => '缩略图',
             'letter' => '首字母',
             'sort' => '排序',
+            'category_id' => '所属分类'
         ];
     }
 

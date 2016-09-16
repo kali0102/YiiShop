@@ -2,17 +2,17 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Category;
+use app\models\Type;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Category */
+/* @var $model app\models\Spec */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="category-form">
+<div class="spec-form">
 
     <?php $form = ActiveForm::begin([
-        'id' => 'category-form',
+        'id' => 'spec-form',
         'options' => ['class' => 'form-horizontal'],
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
@@ -20,13 +20,11 @@ use app\models\Category;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList(Category::lists(), [
-        'prompt' => '-上级分类-'
-    ]); ?>
-
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'thumb')->fileInput() ?>
+    <?= $form->field($model, 'type')->radioList(\app\models\Spec::$types); ?>
+
+    <?= $form->field($model, 'values')->textarea(['cols' => 4, 'rows' => 3]) ?>
 
     <?= $form->field($model, 'sort')->textInput() ?>
 

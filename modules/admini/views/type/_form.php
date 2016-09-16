@@ -2,17 +2,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Category;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Category */
+/* @var $model app\models\Type */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="category-form">
+<div class="type-form">
 
     <?php $form = ActiveForm::begin([
-        'id' => 'category-form',
+        'id' => 'type-form',
         'options' => ['class' => 'form-horizontal'],
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
@@ -20,15 +19,7 @@ use app\models\Category;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList(Category::lists(), [
-        'prompt' => '-上级分类-'
-    ]); ?>
-
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'thumb')->fileInput() ?>
-
-    <?= $form->field($model, 'sort')->textInput() ?>
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">

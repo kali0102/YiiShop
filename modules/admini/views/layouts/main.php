@@ -37,6 +37,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => '商品规格', 'url' => ['/admini/spec']],
             ['label' => '商品分类', 'url' => ['/admini/category']],
             ['label' => '商品品牌', 'url' => ['/admini/brand']],
             Yii::$app->user->isGuest ? (

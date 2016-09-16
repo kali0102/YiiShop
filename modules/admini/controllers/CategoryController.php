@@ -8,17 +8,17 @@ use app\models\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
 
 /**
  * CategoryController implements the CRUD actions for Category model.
  */
-class CategoryController extends Controller
-{
+class CategoryController extends Controller {
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,8 +33,7 @@ class CategoryController extends Controller
      * Lists all Category models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -49,8 +48,7 @@ class CategoryController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -61,17 +59,25 @@ class CategoryController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Category();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $request = Yii::$app->request;
+        if ($model->load($request->post())) {
+            $thumb = UploadedFile::getInstance($model, 'thumb');
+            if ($thumb != null) {
+                $webRoot = Yii::getAlias('@webroot');
+                $saveDir = '/static/cate/' . date('Y');
+                !is_dir($webRoot . $saveDir) ? FileHelper::createDirectory($webRoot . $saveDir) : '';
+                $newName = Yii::$app->security->generateRandomString(12);
+                $model->thumb = $saveDir . '/' . $newName . '.' . $thumb->extension;
+            }
+            if ($model->save()) {
+                if ($thumb != null)
+                    $thumb->saveAs($webRoot . $model->thumb);
+                return $this->redirect(['index']);
+            }
         }
+        return $this->render('create', compact('model'));
     }
 
     /**
@@ -80,17 +86,28 @@ class CategoryController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $oldThumb = $model->thumb;
+        $request = Yii::$app->request;
+        if ($model->load($request->post())) {
+            $thumb = UploadedFile::getInstance($model, 'thumb');
+            if ($thumb != null) {
+                $webRoot = Yii::getAlias('@webroot');
+                $saveDir = '/static/cate/' . date('Y');
+                !is_dir($webRoot . $saveDir) ? FileHelper::createDirectory($webRoot . $saveDir) : '';
+                $newName = Yii::$app->security->generateRandomString(12);
+                $model->thumb = $saveDir . '/' . $newName . '.' . $thumb->extension;
+            }
+            if ($model->save()) {
+                if ($thumb != null) {
+                    @unlink($webRoot . $oldThumb);
+                    $thumb->saveAs($webRoot . $model->thumb);
+                }
+                return $this->redirect(['index']);
+            }
         }
+        return $this->render('update', compact('model'));
     }
 
     /**
@@ -99,8 +116,7 @@ class CategoryController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -113,8 +129,7 @@ class CategoryController extends Controller
      * @return Category the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Category::findOne($id)) !== null) {
             return $model;
         } else {
