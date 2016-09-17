@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  * @property string $parent_id
  * @property string $name
  * @property string $thumb
+ * @property integer $level
  * @property integer $sort
  */
 class Category extends \yii\db\ActiveRecord {
@@ -28,10 +29,9 @@ class Category extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['name', 'thumb'], 'required'],
-            [['parent_id', 'sort'], 'integer'],
-            ['parent_id', 'default', 'value' => 0],
             [['name'], 'string', 'max' => 64],
-            [['thumb'], 'string', 'max' => 128],
+            [['parent_id', 'sort'], 'integer'],
+            [['parent_id', 'sort'], 'default', 'value' => 0],
             ['thumb', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 1024 * 1024 * 1024]
         ];
     }
@@ -45,6 +45,7 @@ class Category extends \yii\db\ActiveRecord {
             'parent_id' => '父级',
             'name' => '名称',
             'thumb' => '缩略图',
+            'level' => '层级',
             'sort' => '排序',
         ];
     }
