@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * 管理模块
+ * 商品规格控制器
+ *
+ * @author kali.liu <kali.liu@qq.com>
+ * @link http://www.fansye.com/
+ * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
+ */
+
 namespace app\modules\admini\controllers;
 
 use app\models\SpecValue;
@@ -11,13 +20,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * SpecController implements the CRUD actions for Spec model.
- */
 class SpecController extends Controller {
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors() {
         return [
             'verbs' => [
@@ -29,36 +33,13 @@ class SpecController extends Controller {
         ];
     }
 
-    /**
-     * Lists all Spec models.
-     * @return mixed
-     */
     public function actionIndex() {
         $searchModel = new SpecSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $request = Yii::$app->request;
+        $dataProvider = $searchModel->search($request->queryParams);
+        return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
-    /**
-     * Displays a single Spec model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id) {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Spec model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate() {
         $model = new Spec();
         $request = Yii::$app->request;
@@ -78,12 +59,6 @@ class SpecController extends Controller {
         return $this->render('create', compact('model'));
     }
 
-    /**
-     * Updates an existing Spec model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
         $request = Yii::$app->request;
@@ -103,30 +78,14 @@ class SpecController extends Controller {
         return $this->render('create', compact('model'));
     }
 
-    /**
-     * Deletes an existing Spec model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id) {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Spec model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Spec the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id) {
-        if (($model = Spec::findOne($id)) !== null) {
+        if (($model = Spec::findOne($id)) !== null)
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
