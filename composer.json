@@ -23,7 +23,11 @@
     "yiisoft/yii2": "~2.0.5",
     "yiisoft/yii2-bootstrap": "~2.0.0",
     "yiisoft/yii2-swiftmailer": "~2.0.0",
-    "kartik-v/yii2-krajee-base": "*"
+    "kartik-v/yii2-krajee-base": "*",
+    "dmstr/yii2-adminlte-asset": "*",
+    "daixianceng/yii2-smser": "*",
+    "kucha/ueditor": "*",
+    "yii2tech/crontab": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

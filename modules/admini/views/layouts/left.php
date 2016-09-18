@@ -10,7 +10,6 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
-
         <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
@@ -22,9 +21,7 @@
             </div>
         </form>
         <!-- /.search form -->
-
-        <?= dmstr\widgets\Menu::widget(
-            [
+        <?= dmstr\widgets\Menu::widget([
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
@@ -61,10 +58,18 @@
                             ['label' => '操作日志', 'icon' => 'fa fa-folder-o', 'url' => ['/admini/logger']],
                         ],
                     ],
+                    [
+                        'label' => '报表、统计',
+                        'icon' => 'fa fa-legal',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => '管理角色', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/role']],
+                            ['label' => '管理员', 'icon' => 'fa fa-gg', 'url' => ['/admini/admin']],
+                            ['label' => '操作日志', 'icon' => 'fa fa-folder-o', 'url' => ['/admini/logger']],
+                        ],
+                    ],
                 ],
             ]
         ) ?>
-
     </section>
-
 </aside>

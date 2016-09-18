@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -15,17 +16,12 @@ use yii\helpers\ArrayHelper;
  * @property integer $level
  * @property integer $sort
  */
-class Category extends \yii\db\ActiveRecord {
-    /**
-     * @inheritdoc
-     */
+class Category extends ActiveRecord {
+
     public static function tableName() {
         return '{{%category}}';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules() {
         return [
             [['name', 'thumb'], 'required'],
@@ -36,9 +32,6 @@ class Category extends \yii\db\ActiveRecord {
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels() {
         return [
             'id' => '主键',
@@ -50,16 +43,12 @@ class Category extends \yii\db\ActiveRecord {
         ];
     }
 
-    /**
-     * @inheritdoc
-     * @return CategoryQuery the active query used by this AR class.
-     */
     public static function find() {
         return new CategoryQuery(get_called_class());
     }
 
     public static function lists() {
-        $models = self::find()->all();
+        $models = self::find()->select(['id', 'name'])->all();
         return ArrayHelper::map($models, 'id', 'name');
     }
 }

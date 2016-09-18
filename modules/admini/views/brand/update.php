@@ -1,21 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Brand */
 
-$this->title = 'Update Brand: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Brands', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->blocks['content-header'] = '编辑品牌';
+$this->title = '商品品牌';
+$this->params['breadcrumbs'][] = ['label' => '商品品牌', 'url' => ['index']];
+$this->params['breadcrumbs'][] = '编辑';
+
+echo $this->render('_form', ['model' => $model]);
 ?>
-<div class="brand-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>

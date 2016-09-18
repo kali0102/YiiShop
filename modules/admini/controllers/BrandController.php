@@ -40,6 +40,7 @@ class BrandController extends Controller {
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
+    // 添加
     public function actionCreate() {
         $model = new Brand();
         $request = Yii::$app->request;
@@ -61,6 +62,7 @@ class BrandController extends Controller {
         return $this->render('create', compact('model'));
     }
 
+    // 更新
     public function actionUpdate($id) {
         $model = $this->findModel($id);
         $oldThumb = $model->thumb;

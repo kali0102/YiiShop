@@ -5,30 +5,17 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Brand;
 
-/**
- * BrandSearch represents the model behind the search form of `app\models\Brand`.
- */
-class BrandSearch extends Brand
-{
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
+class BrandSearch extends Brand {
+
+    public function rules() {
         return [
             [['id', 'sort'], 'integer'],
             [['name', 'thumb', 'letter'], 'safe'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
+    public function scenarios() {
         return Model::scenarios();
     }
 
@@ -39,8 +26,7 @@ class BrandSearch extends Brand
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Brand::find();
 
         // add conditions that should always apply here

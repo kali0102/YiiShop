@@ -7,37 +7,40 @@ use app\models\Category;
 /* @var $this yii\web\View */
 /* @var $model app\models\Brand */
 /* @var $form yii\widgets\ActiveForm */
+
+$defultFieldConfig = [
+    'template' => "{label}\n<div class=\"col-xs-3\">{input}</div>\n<div class=\"col-xs-7\">{error}</div>",
+    'labelOptions' => ['class' => 'col-xs-2 control-label'],
+];
+$otherFieldConfig = [
+    'template' => "{label}\n<div class=\"col-xs-2\">{input}</div>\n<div class=\"col-xs-8\">{error}</div>",
+    'labelOptions' => ['class' => 'col-xs-2 control-label'],
+];
+
 ?>
 
-<div class="brand-form">
-
-    <?php $form = ActiveForm::begin([
-        'id' => 'brand-form',
-        'options' => ['class' => 'form-horizontal'],
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-    ]); ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'category_id')->dropDownList(Category::lists(), [
-        'prompt' => '-选择分类-'
-    ]); ?>
-
-    <?= $form->field($model, 'thumb')->fileInput() ?>
-
-    <?= $form->field($model, 'letter')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'sort')->textInput() ?>
-
-    <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">品牌信息<?php if (!$model->isNewRecord): ?>：<?php echo $model->name; ?><?php endif; ?></h3>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
+    <!-- /.box-header -->
+    <div class="box-body">
+        <?php $form = ActiveForm::begin([
+            'id' => 'brand-form',
+            'options' => ['class' => 'form-horizontal'],
+            'fieldConfig' => $defultFieldConfig,
+        ]); ?>
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => '商品品牌的名称']) ?>
+        <?= $form->field($model, 'category_id', $otherFieldConfig)->dropDownList(Category::lists(), ['prompt' => '-选择分类-']); ?>
+        <?= $form->field($model, 'thumb')->fileInput() ?>
+        <?= $form->field($model, 'letter', $otherFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '品牌名首字母']) ?>
+        <?= $form->field($model, 'sort', $otherFieldConfig)->textInput(['placeholder' => '0~255之间']) ?>
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-11">
+                <?= Html::submitButton($model->isNewRecord ? '添加' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
+        </div>
+        <?php ActiveForm::end(); ?>
+    </div>
+    <!-- /.box-body -->
 </div>

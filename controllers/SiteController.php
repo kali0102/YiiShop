@@ -50,11 +50,11 @@ class SiteController extends Controller {
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
+
+    public function actionTest() {
+
+    }
+
     public function actionIndex() {
         return $this->render('index');
     }
@@ -85,7 +85,6 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 

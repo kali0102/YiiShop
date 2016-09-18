@@ -1,10 +1,12 @@
 <?php
 
-namespace app\models;
-
-use Yii;
-
 /**
+ * 商品品牌模型
+ *
+ * @author kali.liu <kali.liu@qq.com>
+ * @link http://www.fansye.com/
+ * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
+ *
  * This is the model class for table "{{%brand}}".
  *
  * @property string $id
@@ -14,18 +16,20 @@ use Yii;
  * @property integer $sort
  * @property integer $category_id
  */
-class Brand extends \yii\db\ActiveRecord {
 
-    /**
-     * @inheritdoc
-     */
+namespace app\models;
+
+use Yii;
+use yii\db\ActiveRecord;
+
+class Brand extends ActiveRecord {
+
+
     public static function tableName() {
         return '{{%brand}}';
     }
 
-    /**
-     * @inheritdoc
-     */
+
     public function rules() {
         return [
             [['name', 'thumb', 'letter'], 'required'],
@@ -38,9 +42,7 @@ class Brand extends \yii\db\ActiveRecord {
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
+
     public function attributeLabels() {
         return [
             'id' => '主键',
@@ -52,10 +54,6 @@ class Brand extends \yii\db\ActiveRecord {
         ];
     }
 
-    /**
-     * @inheritdoc
-     * @return BrandQuery the active query used by this AR class.
-     */
     public static function find() {
         return new BrandQuery(get_called_class());
     }
