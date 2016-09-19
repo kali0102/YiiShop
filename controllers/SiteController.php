@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Overtrue\Pinyin\Pinyin;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -111,6 +112,15 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionAbout() {
-        return $this->render('about');
+
+        $pinyin = new Pinyin;
+
+        $arr = $pinyin->convert('ASSSS');
+
+
+        echo '<pre>';
+        print_r($arr);
+
+        //return $this->render('about');
     }
 }

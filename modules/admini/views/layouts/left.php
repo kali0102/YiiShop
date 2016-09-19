@@ -63,7 +63,7 @@
                         'icon' => 'fa fa-legal',
                         'url' => '#',
                         'items' => [
-                            ['label' => '管理角色', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/role']],
+                            ['label' => '注册用户', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/user']],
                             ['label' => '管理员', 'icon' => 'fa fa-gg', 'url' => ['/admini/admin']],
                             ['label' => '操作日志', 'icon' => 'fa fa-folder-o', 'url' => ['/admini/logger']],
                         ],

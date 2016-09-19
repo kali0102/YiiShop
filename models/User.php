@@ -2,103 +2,96 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use Yii;
+
+/**
+ * This is the model class for table "{{%user}}".
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $mobile
+ * @property string $email
+ * @property integer $sex
+ * @property string $realname
+ * @property string $nickname
+ * @property string $avatar
+ * @property integer $province_id
+ * @property integer $city_id
+ * @property integer $district_id
+ * @property string $street
+ * @property integer $register_type
+ * @property integer $login_time
+ * @property string $login_ip
+ * @property integer $logins
+ * @property integer $register_time
+ *
+ * @property Address[] $addresses
+ */
+class User extends \yii\db\ActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
     /**
      * @inheritdoc
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return '{{%user}}';
     }
 
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return [
+            [['sex', 'province_id', 'city_id', 'district_id', 'register_type', 'login_time', 'logins', 'register_time'], 'integer'],
+            [['username', 'email', 'realname', 'nickname', 'login_ip'], 'string', 'max' => 64],
+            [['password', 'avatar', 'street'], 'string', 'max' => 128],
+            [['mobile'], 'string', 'max' => 11],
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    public function getId()
+    public function attributeLabels()
     {
-        return $this->id;
+        return [
+            'id' => '主键',
+            'username' => '用户名',
+            'password' => '密码',
+            'mobile' => '手机号码',
+            'email' => '邮箱',
+            'sex' => '性别',
+            'realname' => '真名',
+            'nickname' => '昵称',
+            'avatar' => '头像',
+            'province_id' => '省份',
+            'city_id' => '城市',
+            'district_id' => '区县',
+            'street' => '街道详情',
+            'register_type' => '注册类型（1网站、2微信、3app）',
+            'login_time' => '最近登录时间',
+            'login_ip' => '最近登录IP',
+            'logins' => '登录次数',
+            'register_time' => '注册时间',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddresses()
+    {
+        return $this->hasMany(Address::className(), ['user_id' => 'id']);
     }
 
     /**
      * @inheritdoc
+     * @return UserQuery the active query used by this AR class.
      */
-    public function getAuthKey()
+    public static function find()
     {
-        return $this->authKey;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        return new UserQuery(get_called_class());
     }
 }

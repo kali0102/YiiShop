@@ -3,16 +3,16 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use app\models\Spec;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\SpecSearch */
+/* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '商品规格';
-$this->params['breadcrumbs'][] = ['label' => '商品规格', 'url' => ['index']];
+$this->title = '注册用户';
+$this->params['breadcrumbs'][] = ['label' => '注册用户', 'url' => ['index']];
 $this->params['breadcrumbs'][] = '列表';
 ?>
+
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Hover Data Table</h3>
@@ -27,20 +27,22 @@ $this->params['breadcrumbs'][] = '列表';
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                'name',
-                [
-                    'attribute' => 'values',
-                    'value' => function ($m) {
-                        return Spec::showValues($m->specValues);
-                    }
-                ],
-                [
-                    'attribute' => 'type',
-                    'value' => function ($m) {
-                        return Spec::$types[$m->type];
-                    }
-                ],
-                'sort',
+                'username',
+                'mobile',
+                'email:email',
+                 'sex',
+                // 'realname',
+                // 'nickname',
+                // 'avatar',
+                // 'province_id',
+                // 'city_id',
+                // 'district_id',
+                // 'street',
+                // 'register_type',
+                // 'login_time:datetime',
+                // 'login_ip',
+                 'logins',
+                 'register_time:datetime',
 
                 [
                     'class' => 'yii\grid\ActionColumn',
