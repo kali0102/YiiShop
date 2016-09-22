@@ -27,7 +27,9 @@
     "dmstr/yii2-adminlte-asset": "*",
     "daixianceng/yii2-smser": "*",
     "kucha/ueditor": "*",
-    "yii2tech/crontab": "*"
+    "yii2tech/crontab": "*",
+    "overtrue/wechat": "*",
+    "overtrue/pinyin": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",
