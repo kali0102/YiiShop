@@ -17,6 +17,8 @@ $config = [
     ],
 
     'components' => [
+
+
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '2ALHqm_-AcDF5byA4gtWsEvGiaz2gyYD',
@@ -28,6 +30,16 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
+
+        'admin' => [
+            'class' => 'yii\web\User',
+            'identityClass' => 'app\models\Admin',
+            'enableAutoLogin' => true,
+            'loginUrl' => ['/admini/signin'],
+            'identityCookie' => ['name' => '__admin_identity'],
+            'idParam' => '__admin'
+        ],
+
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

@@ -7,29 +7,21 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\BrandSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="brand-search">
-
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
-
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'name') ?>
-
-    <?= $form->field($model, 'thumb') ?>
-
-    <?= $form->field($model, 'letter') ?>
-
-    <?= $form->field($model, 'sort') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+<div class="box-body">
+    <div class="pull-left">
+        <?= Html::a('创建品牌', ['create'], ['class' => 'btn btn-sm btn-success']) ?>
     </div>
-
+    <div class="pull-right">
+        <?php $form = ActiveForm::begin([
+            'action' => ['index'],
+            'options' => ['class' => 'form-inline'],
+            'method' => 'get',
+            'fieldConfig' => ['template' => "{label}{input}"],
+        ]); ?>
+        <?= $form->field($model, 'name')->textInput(['class' => 'form-control input-sm', 'placeholder' => '品牌的名称'])->label('名称：'); ?>
+        <div class="form-group">
+            <?= Html::submitButton('搜索', ['class' => 'btn btn-sm btn-success']) ?>
+        </div>
+    </div>
     <?php ActiveForm::end(); ?>
-
 </div>

@@ -33,7 +33,6 @@ $otherFieldConfig = [
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'placeholder' => '商品品牌的名称']) ?>
         <?= $form->field($model, 'category_id', $otherFieldConfig)->dropDownList(Category::lists(), ['prompt' => '-选择分类-']); ?>
         <?= $form->field($model, 'thumb')->fileInput() ?>
-        <?= $form->field($model, 'letter', $otherFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '品牌名首字母']) ?>
         <?= $form->field($model, 'sort', $otherFieldConfig)->textInput(['placeholder' => '0~255之间']) ?>
         <div class="form-group">
             <div class="col-xs-offset-2 col-xs-11">

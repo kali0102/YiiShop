@@ -11,18 +11,19 @@
 
 namespace app\modules\admini\controllers;
 
+use Overtrue\Pinyin\Pinyin;
 use Yii;
 use app\models\Brand;
 use app\models\BrandSearch;
-use yii\helpers\FileHelper;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
-class BrandController extends Controller {
+use app\components\Controller;
 
-    public function behaviors() {
+class BrandController extends Controller
+{
+
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,7 +34,9 @@ class BrandController extends Controller {
         ];
     }
 
-    public function actionIndex() {
+    // 列表
+    public function actionIndex()
+    {
         $searchModel = new BrandSearch();
         $request = Yii::$app->request;
         $dataProvider = $searchModel->search($request->queryParams);
@@ -41,60 +44,44 @@ class BrandController extends Controller {
     }
 
     // 添加
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Brand();
         $request = Yii::$app->request;
         if ($model->load($request->post())) {
-            $thumb = UploadedFile::getInstance($model, 'thumb');
-            if ($thumb != null) {
-                $webRoot = Yii::getAlias('@webroot');
-                $saveDir = '/static/brand/' . date('Y');
-                !is_dir($webRoot . $saveDir) ? FileHelper::createDirectory($webRoot . $saveDir) : '';
-                $newName = Yii::$app->security->generateRandomString(12);
-                $model->thumb = $saveDir . '/' . $newName . '.' . $thumb->extension;
-            }
-            if ($model->save()) {
-                if ($thumb != null)
-                    $thumb->saveAs($webRoot . $model->thumb);
+            $this->fileUpload($model, 'thumb');
+            $pinyin = new Pinyin;
+            $letter = substr(strtoupper($pinyin->abbr($model->name)), 0, 1);
+            $model->letter = $letter;
+            if ($model->save())
                 return $this->redirect(['index']);
-            }
+
         }
         return $this->render('create', compact('model'));
     }
 
     // 更新
-    public function actionUpdate($id) {
-        $model = $this->findModel($id);
-        $oldThumb = $model->thumb;
+    public function actionUpdate($id)
+    {
+        $model = $this->loadModel($id);
         $request = Yii::$app->request;
         if ($model->load($request->post())) {
-            $thumb = UploadedFile::getInstance($model, 'thumb');
-            if ($thumb != null) {
-                $webRoot = Yii::getAlias('@webroot');
-                $saveDir = '/static/brand/' . date('Y');
-                !is_dir($webRoot . $saveDir) ? FileHelper::createDirectory($webRoot . $saveDir) : '';
-                $newName = Yii::$app->security->generateRandomString(12);
-                $model->thumb = $saveDir . '/' . $newName . '.' . $thumb->extension;
-            }
-            if ($model->save()) {
-                if ($thumb != null) {
-                    @unlink($webRoot . $oldThumb);
-                    $thumb->saveAs($webRoot . $model->thumb);
-                }
+            $this->fileUpload($model, 'thumb');
+            $pinyin = new Pinyin;
+            $letter = substr(strtoupper($pinyin->abbr($model->name)), 0, 1);
+            $model->letter = $letter;
+            if ($model->save())
                 return $this->redirect(['index']);
-            }
+
         }
         return $this->render('update', compact('model'));
     }
 
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    // 删除
+    public function actionDelete($id)
+    {
+        $this->loadModel($id)->delete();
         return $this->redirect(['index']);
     }
 
-    protected function findModel($id) {
-        if (($model = Brand::findOne($id)) !== null)
-            return $model;
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
 }

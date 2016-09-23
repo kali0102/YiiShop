@@ -19,7 +19,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="hold-transition skin-green-light sidebar-mini">
+<body class="hold-transition skin-green-light sidebar-mini" style="font-family: 'Microsoft YaHei UI'">
 <?php $this->beginBody() ?>
 <div class="wrapper">
     <?= $this->render('header.php', ['directoryAsset' => $directoryAsset]) ?>
