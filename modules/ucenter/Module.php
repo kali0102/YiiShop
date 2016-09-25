@@ -1,10 +1,15 @@
 <?php
 
+/**
+ * 用户中心模块
+ *
+ * @author kali.liu <kali.liu@qq.com>
+ * @link http://www.fansye.com/
+ * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
+ */
+
 namespace app\modules\ucenter;
 
-/**
- * user module definition class
- */
 class Module extends \yii\base\Module
 {
     public $controllerNamespace = 'app\modules\ucenter\controllers';

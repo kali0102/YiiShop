@@ -1,24 +1,22 @@
 <?php
 
+/**
+ * 微信模块
+ *
+ * @author kali.liu <kali.liu@qq.com>
+ * @link http://www.fansye.com/
+ * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
+ */
+
 namespace app\modules\wechat;
 
-/**
- * wechat module definition class
- */
 class Module extends \yii\base\Module
 {
-    /**
-     * @inheritdoc
-     */
+
     public $controllerNamespace = 'app\modules\wechat\controllers';
 
-    /**
-     * @inheritdoc
-     */
     public function init()
     {
         parent::init();
-
-        // custom initialization code goes here
     }
 }
