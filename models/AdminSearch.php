@@ -12,9 +12,6 @@ use app\models\Admin;
  */
 class AdminSearch extends Admin
 {
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -23,12 +20,9 @@ class AdminSearch extends Admin
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
+
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
@@ -36,7 +30,6 @@ class AdminSearch extends Admin
      * Creates data provider instance with search query applied
      *
      * @param array $params
-     *
      * @return ActiveDataProvider
      */
     public function search($params)
@@ -44,9 +37,10 @@ class AdminSearch extends Admin
         $query = Admin::find();
 
         // add conditions that should always apply here
-
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]]
         ]);
 
         $this->load($params);

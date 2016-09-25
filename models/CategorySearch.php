@@ -12,9 +12,7 @@ use app\models\Category;
  */
 class CategorySearch extends Category
 {
-    /**
-     * @inheritdoc
-     */
+
     public function rules()
     {
         return [
@@ -23,12 +21,8 @@ class CategorySearch extends Category
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 

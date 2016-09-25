@@ -14,10 +14,11 @@ $this->params['breadcrumbs'][] = ['label' => '商品规格', 'url' => ['index']]
 $this->params['breadcrumbs'][] = '列表';
 ?>
 <div class="box">
-    <div class="box-header">
-        <h3 class="box-title">Hover Data Table</h3>
-    </div>
+<!--    <div class="box-header">-->
+<!--        <h3 class="box-title">Hover Data Table</h3>-->
+<!--    </div>-->
     <!-- /.box-header -->
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="box-body">
         <?php Pjax::begin(); ?>
         <?= GridView::widget([

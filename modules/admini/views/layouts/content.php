@@ -35,7 +35,8 @@ use dmstr\widgets\Alert;
     <div class="pull-right hidden-xs">
         <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2016-2068 <a href="http://www.fansye.com">Fansye.com</a>.</strong> All rights
+    <strong>Copyright &copy; 2016-2068 <a href="http://www.fansye.com" target="_blank">Fansye.com</a>.</strong> All
+    rights
     reserved.
 </footer>
 

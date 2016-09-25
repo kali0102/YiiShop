@@ -1,22 +1,25 @@
 <?php
 
+/**
+ * 管理模块
+ * 管理员控制器
+ *
+ * @author kali.liu <kali.liu@qq.com>
+ * @link http://www.fansye.com/
+ * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
+ */
+
 namespace app\modules\admini\controllers;
 
 use Yii;
 use app\models\Admin;
 use app\models\AdminSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\components\Controller;
 
-/**
- * AdminController implements the CRUD actions for Admin model.
- */
 class AdminController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors()
     {
         return [
@@ -29,26 +32,14 @@ class AdminController extends Controller
         ];
     }
 
-    /**
-     * Lists all Admin models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new AdminSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $request = Yii::$app->request;
+        $dataProvider = $searchModel->search($request->queryParams);
+        return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
-    /**
-     * Displays a single Admin model.
-     * @param string $id
-     * @return mixed
-     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -56,69 +47,28 @@ class AdminController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Admin model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
-        $model = new Admin();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        $model = new Admin;
+        $request = Yii::$app->request;
+        if ($model->load($request->post()) && $model->save())
+            return $this->redirect(['index']);
+        return $this->render('create', compact('model'));
     }
 
-    /**
-     * Updates an existing Admin model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        $request = Yii::$app->request;
+        if ($model->load($request->post()) && $model->save())
+            return $this->redirect(['index']);
+        return $this->render('create', compact('model'));
     }
 
-    /**
-     * Deletes an existing Admin model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $this->loadModel($id)->delete();
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Admin model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @return Admin the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Admin::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -28,19 +30,14 @@ use Yii;
  *
  * @property Address[] $addresses
  */
-class User extends \yii\db\ActiveRecord
+class User extends ActiveRecord implements IdentityInterface
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return '{{%user}}';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -48,12 +45,13 @@ class User extends \yii\db\ActiveRecord
             [['username', 'email', 'realname', 'nickname', 'login_ip'], 'string', 'max' => 64],
             [['password', 'avatar', 'street'], 'string', 'max' => 128],
             [['mobile'], 'string', 'max' => 11],
+
+            // 手机注册
+            [['mobile', 'password'], 'required', 'on' => 'register'],
+            ['mobile', 'unique', 'on' => 'register']
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -78,20 +76,74 @@ class User extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getAddresses()
     {
         return $this->hasMany(Address::className(), ['user_id' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return UserQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new UserQuery(get_called_class());
     }
+
+    // 注册
+    public function register()
+    {
+        if (!$this->isNewRecord)
+            return false;
+
+        $this->register_time = time();
+        $this->register_type = 1;
+        $this->setPassword($this->password);
+
+        if (!$this->save())
+            return false;
+
+        return true;
+    }
+
+    public static function findByUsername($username)
+    {
+        $user = self::find()->where(['mobile' => $username])->one();
+        if ($user)
+            return new static($user);
+        return null;
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        return null;
+    }
+
+    public function getAuthKey()
+    {
+        return null;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public static function findIdentity($id)
+    {
+        return static::findOne(['id' => $id]);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return null;
+    }
+
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = Yii::$app->security->generatePasswordHash($password);
+    }
+
+
 }

@@ -43,9 +43,9 @@
                         'icon' => 'fa fa-truck',
                         'url' => '#',
                         'items' => [
-                            ['label' => '订单总汇', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/role']],
-                            ['label' => '待发货单', 'icon' => 'fa fa-gg', 'url' => ['/admini/admin']],
-                            ['label' => '退货单', 'icon' => 'fa fa-folder-o', 'url' => ['/admini/logger']],
+                            ['label' => '订单总汇', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/order']],
+                            ['label' => '待发货单', 'icon' => 'fa fa-gg', 'url' => ['/admini/order/deliver']],
+                            ['label' => '退货单', 'icon' => 'fa fa-folder-o', 'url' => ['/admini/order/return']],
                         ],
                     ],
                     [
@@ -53,18 +53,10 @@
                         'icon' => 'fa fa-legal',
                         'url' => '#',
                         'items' => [
+                            ['label' => '注册会员', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/user']],
+
                             ['label' => '管理角色', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/role']],
-                            ['label' => '管理员', 'icon' => 'fa fa-gg', 'url' => ['/admini/admin']],
-                            ['label' => '操作日志', 'icon' => 'fa fa-folder-o', 'url' => ['/admini/logger']],
-                        ],
-                    ],
-                    [
-                        'label' => '报表、统计',
-                        'icon' => 'fa fa-legal',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '注册用户', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/user']],
-                            ['label' => '管理员', 'icon' => 'fa fa-gg', 'url' => ['/admini/admin']],
+
                             ['label' => '操作日志', 'icon' => 'fa fa-folder-o', 'url' => ['/admini/logger']],
                         ],
                     ],
