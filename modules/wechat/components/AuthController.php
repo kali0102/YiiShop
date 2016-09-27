@@ -9,11 +9,11 @@
  * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
  */
 
-namespace app\modules\wap\components;
+namespace app\modules\wechat\components;
 
 use Yii;
 use yii\helpers\Url;
-use yii\web\Controller;
+use app\components\Controller;
 use EasyWeChat\Foundation\Application;
 
 class AuthController extends Controller

@@ -16,7 +16,6 @@ use Yii;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use yii\web\NotFoundHttpException;
-use yii\web\Cookie;
 
 class Controller extends \yii\web\Controller
 {

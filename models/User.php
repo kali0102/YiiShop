@@ -27,11 +27,30 @@ use yii\web\IdentityInterface;
  * @property string $login_ip
  * @property integer $logins
  * @property integer $register_time
+ * @property string $openid
  *
  * @property Address[] $addresses
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+
+    const REGISTER_TYPE_WEB = 1;
+    const REGISTER_TYPE_SUBSCRIBE = 2;
+
+    const SEX_SECRECY = 0;
+    const SEX_MALE = 1;
+    const SEX_FEMALE = 2;
+
+    public static $sexList = [
+        self::SEX_MALE => '男',
+        self::SEX_FEMALE => '女',
+        self::SEX_SECRECY => '保密'
+    ];
+
+    public static $registerTypeList = [
+        self::REGISTER_TYPE_WEB => '网站',
+        self::REGISTER_TYPE_SUBSCRIBE => '扫码关注'
+    ];
 
     public static function tableName()
     {
@@ -68,11 +87,12 @@ class User extends ActiveRecord implements IdentityInterface
             'city_id' => '城市',
             'district_id' => '区县',
             'street' => '街道详情',
-            'register_type' => '注册类型（1网站、2微信、3app）',
+            'register_type' => '注册类型',//（1网站、2微信、3app）
             'login_time' => '最近登录时间',
             'login_ip' => '最近登录IP',
             'logins' => '登录次数',
             'register_time' => '注册时间',
+            'openid' => 'OPENID'
         ];
     }
 
@@ -86,14 +106,17 @@ class User extends ActiveRecord implements IdentityInterface
         return new UserQuery(get_called_class());
     }
 
-    // 注册
+    /**
+     * 用户手机注册
+     * @return bool
+     */
     public function register()
     {
         if (!$this->isNewRecord)
             return false;
 
         $this->register_time = time();
-        $this->register_type = 1;
+        $this->register_type = self::REGISTER_TYPE_WEB;
         $this->setPassword($this->password);
 
         if (!$this->save())
@@ -102,6 +125,11 @@ class User extends ActiveRecord implements IdentityInterface
         return true;
     }
 
+    /**
+     * 通过手机号码查找用户
+     * @param $username
+     * @return null|static
+     */
     public static function findByUsername($username)
     {
         $user = self::find()->where(['mobile' => $username])->one();
@@ -135,15 +163,55 @@ class User extends ActiveRecord implements IdentityInterface
         return null;
     }
 
+    /**
+     * 验证密码
+     * @param $password
+     * @return bool
+     */
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password);
     }
 
+    /**
+     * 加密密码
+     * @param $password
+     * @throws \yii\base\Exception
+     */
     public function setPassword($password)
     {
         $this->password = Yii::$app->security->generatePasswordHash($password);
     }
 
+    /**
+     * 通过微信openid查找用户
+     * @param $openid
+     * @return null|static
+     */
+    public static function findByOpenid($openid)
+    {
+        $user = self::find()->where(['openid' => $openid])->one();
+        if ($user)
+            return new static($user);
+        return null;
+    }
 
+    /**
+     * 用户扫码订阅
+     * 解析用户行为
+     * 创建用户账号
+     * @param $userInfo
+     * @param $message
+     * @throws \yii\db\Exception
+     */
+    public static function subscribe($userInfo, $message)
+    {
+        $exists = self::find()->where(['openid' => $userInfo->openid])->exists();
+        if (false == $exists) {
+            $user['openid'] = $userInfo->openid;
+            $user['register_time'] = $message->CreateTime;
+            $user['register_type'] = self::REGISTER_TYPE_SUBSCRIBE;
+            Yii::$app->db->createCommand()->insert('{{%user}}', $user)->execute();
+        }
+    }
 }

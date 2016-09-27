@@ -1,3 +1,6 @@
+<?php
+$username = Yii::$app->admin->isGuest ? '' : Yii::$app->admin->identity->username;
+?>
 <aside class="main-sidebar">
     <section class="sidebar">
         <!-- Sidebar user panel -->
@@ -6,7 +9,7 @@
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p><?php echo Yii::$app->admin->identity->username; ?></p>
+                <p><?php echo $username; ?></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -53,11 +56,10 @@
                         'icon' => 'fa fa-legal',
                         'url' => '#',
                         'items' => [
-                            ['label' => '注册会员', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/user']],
-
+                            ['label' => '管理员', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/admin']],
                             ['label' => '管理角色', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/role']],
-
                             ['label' => '操作日志', 'icon' => 'fa fa-folder-o', 'url' => ['/admini/logger']],
+                            ['label' => '注册会员', 'icon' => 'fa fa-bell-o', 'url' => ['/admini/user']],
                         ],
                     ],
                 ],

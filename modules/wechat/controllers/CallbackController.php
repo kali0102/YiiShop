@@ -9,7 +9,7 @@
  * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
  */
 
-namespace app\modules\wap\controllers;
+namespace app\modules\wechat\controllers;
 
 use Yii;
 use yii\web\Controller;
@@ -27,11 +27,20 @@ class CallbackController extends Controller
         $avatar = $user->getAvatar();
         $nickname = $user->getNickname();
 
-        $model = new AuthLoginForm;
-        $model->openid = $openid;
-        if ($model->login())
-            return $this->redirect([$_GET['target']]);
 
-        Yii::$app->end();
+        echo $openid;
+        echo "<br />";
+        echo $avatar;
+        echo "<br />";
+        echo $nickname;
+
+//        $model = new AuthLoginForm;
+//        $model->openid = $openid;
+//        if ($model->login())
+//            return $this->redirect([$_GET['target']]);
+//
+//        Yii::$app->end();
     }
+
+
 }

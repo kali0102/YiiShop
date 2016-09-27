@@ -27,7 +27,7 @@ $configs['components']['cache'] = ['class' => 'yii\caching\FileCache'];
 $configs['components']['errorHandler'] = ['errorAction' => 'site/error'];
 $configs['components']['db'] = require(__DIR__ . '/database.php');
 $configs['components']['mailer'] = ['class' => 'yii\swiftmailer\Mailer', 'useFileTransport' => true];
-$configs['components']['urlManager'] = ['enablePrettyUrl' => false, 'showScriptName' => true, 'rules' => []];
+$configs['components']['urlManager'] = ['enablePrettyUrl' => true, 'showScriptName' => false, 'rules' => []];
 $configs['components']['log'] = [
     'traceLevel' => YII_DEBUG ? 3 : 0,
     'targets' => [
