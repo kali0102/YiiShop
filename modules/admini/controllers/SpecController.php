@@ -11,18 +11,20 @@
 
 namespace app\modules\admini\controllers;
 
-use app\models\SpecValue;
-use app\models\Type;
+
 use Yii;
 use app\models\Spec;
 use app\models\SpecSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\SpecValue;
+use app\models\Type;
+use app\components\Controller;
 
-class SpecController extends Controller {
+class SpecController extends Controller
+{
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +35,18 @@ class SpecController extends Controller {
         ];
     }
 
-    public function actionIndex() {
+    // 列表
+    public function actionIndex()
+    {
         $searchModel = new SpecSearch();
         $request = Yii::$app->request;
         $dataProvider = $searchModel->search($request->queryParams);
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
-    public function actionCreate() {
+    // 添加
+    public function actionCreate()
+    {
         $model = new Spec();
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save()) {
@@ -59,8 +65,10 @@ class SpecController extends Controller {
         return $this->render('create', compact('model'));
     }
 
-    public function actionUpdate($id) {
-        $model = $this->findModel($id);
+    // 编辑
+    public function actionUpdate($id)
+    {
+        $model = $this->loadModel($id);
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save()) {
             $values = explode(',', $model->values);
@@ -78,14 +86,20 @@ class SpecController extends Controller {
         return $this->render('create', compact('model'));
     }
 
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    // 删除
+    public function actionDelete($id)
+    {
+        $this->loadModel($id)->delete();
         return $this->redirect(['index']);
     }
 
-    protected function findModel($id) {
-        if (($model = Spec::findOne($id)) !== null)
-            return $model;
-        throw new NotFoundHttpException('The requested page does not exist.');
+    protected function parseValue($model)
+    {
+        $values = [];
+        if (!empty($model->specValues)) {
+            foreach ($model->specValues as $value)
+                array_push($values, $value->name);
+        }
+        return $values;
     }
 }

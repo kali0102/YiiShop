@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = '列表';
                 [
                     'attribute' => 'type',
                     'value' => function ($m) {
-                        return Spec::$types[$m->type];
+                        return Spec::$typeList[$m->type];
                     }
                 ],
                 'sort',
