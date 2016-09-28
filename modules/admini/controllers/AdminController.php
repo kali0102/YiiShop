@@ -12,8 +12,8 @@
 namespace app\modules\admini\controllers;
 
 use Yii;
-use app\models\Admin;
-use app\models\AdminSearch;
+use app\modules\admini\models\Admin;
+use app\modules\admini\models\AdminSearch;
 use yii\filters\VerbFilter;
 use app\components\Controller;
 
@@ -32,6 +32,10 @@ class AdminController extends Controller
         ];
     }
 
+    /**
+     * 列表
+     * @return string
+     */
     public function actionIndex()
     {
         $searchModel = new AdminSearch();
@@ -40,6 +44,11 @@ class AdminController extends Controller
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
+    /**
+     * 详情
+     * @param $id
+     * @return string
+     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -47,6 +56,10 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * 添加
+     * @return string|\yii\web\Response
+     */
     public function actionCreate()
     {
         $model = new Admin;
@@ -56,19 +69,44 @@ class AdminController extends Controller
         return $this->render('create', compact('model'));
     }
 
+    /**
+     * 编辑
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->loadModel($id);
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save())
             return $this->redirect(['index']);
         return $this->render('create', compact('model'));
     }
 
+    /**
+     * 删除
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
     public function actionDelete($id)
     {
         $this->loadModel($id)->delete();
         return $this->redirect(['index']);
     }
 
+    /**
+     * 实例化模型
+     * @param \app\components\主键ID $id
+     * @return static
+     * @throws NotFoundHttpException
+     */
+    public function loadModel($id)
+    {
+        $model = Admin::findOne($id);
+        if ($model === null)
+            throw new NotFoundHttpException('', 404);
+        return $model;
+    }
 }

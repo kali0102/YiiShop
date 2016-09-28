@@ -1,6 +1,5 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
@@ -14,10 +13,7 @@ $this->params['breadcrumbs'][] = '列表';
 ?>
 
 <div class="box">
-    <div class="box-header">
-        <h3 class="box-title">Hover Data Table</h3>
-    </div>
-    <!-- /.box-header -->
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="box-body">
         <?php Pjax::begin(); ?>
         <?= GridView::widget([
@@ -30,7 +26,7 @@ $this->params['breadcrumbs'][] = '列表';
                 'username',
                 'mobile',
                 'email:email',
-                 'sex',
+                'sex',
                 // 'realname',
                 // 'nickname',
                 // 'avatar',
@@ -41,8 +37,8 @@ $this->params['breadcrumbs'][] = '列表';
                 // 'register_type',
                 // 'login_time:datetime',
                 // 'login_ip',
-                 'logins',
-                 'register_time:datetime',
+                'logins',
+                'register_time:datetime',
 
                 [
                     'class' => 'yii\grid\ActionColumn',
@@ -52,5 +48,4 @@ $this->params['breadcrumbs'][] = '列表';
         ]); ?>
         <?php Pjax::end(); ?>
     </div>
-    <!-- /.box-body -->
 </div>

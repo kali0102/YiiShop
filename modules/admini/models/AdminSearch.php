@@ -5,11 +5,7 @@ namespace app\modules\admini\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Admin;
 
-/**
- * AdminSearch represents the model behind the search form of `app\models\Admin`.
- */
 class AdminSearch extends Admin
 {
     public function rules()

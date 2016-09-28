@@ -1,11 +1,11 @@
 <?php
 
-use app\models\Admin;
+use app\modules\admini\models\Admin;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Admin */
+/* @var $model app\modules\admini\models\Admin */
 /* @var $form yii\widgets\ActiveForm */
 
 $defultFieldConfig = [
@@ -24,7 +24,8 @@ $selectFieldConfig = [
 ?>
 <div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title">管理员信息<?php if (!$model->isNewRecord): ?>：<?php echo $model->username; ?><?php endif; ?></h3>
+        <h3 class="box-title">
+            管理员信息<?php if (!$model->isNewRecord): ?>：<?php echo $model->username; ?><?php endif; ?></h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -33,10 +34,14 @@ $selectFieldConfig = [
             'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => $defultFieldConfig,
         ]); ?>
-        <?= $form->field($model, 'username', $otherFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '管理员的用户名']) ?>
+        <?php if ($model->isNewRecord): ?>
+            <?= $form->field($model, 'username', $otherFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '管理员的用户名']) ?>
+        <?php else: ?>
+            <?= $form->field($model, 'username', $otherFieldConfig)->textInput(['maxlength' => true, 'readonly' => true]) ?>
+        <?php endif; ?>
         <?= $form->field($model, 'password', $defultFieldConfig)->passwordInput(['placeholder' => '登录用密码']) ?>
-        <?= $form->field($model, 'mobile')->textInput(['maxlength' => true, 'placeholder' => '管理员的用户名']) ?>
-        <?= $form->field($model, 'email', $defultFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '管理员的用户名']) ?>
+        <?= $form->field($model, 'mobile')->textInput(['maxlength' => true, 'placeholder' => '管理员的手机号码']) ?>
+        <?= $form->field($model, 'email', $defultFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '管理员的邮箱']) ?>
         <?= $form->field($model, 'realname', $otherFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '管理员真实姓名']) ?>
         <?= $form->field($model, 'sex', $selectFieldConfig)->dropDownList(Admin::$sexList, []) ?>
         <?= $form->field($model, 'status', $selectFieldConfig)->dropDownList(Admin::$statusList) ?>
