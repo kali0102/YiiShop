@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
+/* @var $model \common\models\AdminLoginForm */
 
 $this->title = 'Sign In';
 
@@ -35,11 +35,13 @@ $passwordOption = [
 
         <?= $form->field($model, 'password', $passwordOption)->label(false)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
-        <?= $form->field($model, 'captcha')->widget(Captcha::className(), [
-            'captchaAction' => 'signin/captcha',
-            'template' => '<div class="row"><div class="col-lg-5">{input}</div><div class="col-lg-6">{image}</div></div>',
-            'imageOptions' => ['alt' => '点击换图', 'title' => '点击换图', 'style' => 'cursor: pointer;']
-        ])->label(false); ?>
+        <?php if ($model->scenario == 'captchaRequired'): ?>
+            <?= $form->field($model, 'captcha')->widget(Captcha::className(), [
+                'captchaAction' => 'signin/captcha',
+                'template' => '<div class="row"><div class="col-lg-5">{input}</div><div class="col-lg-6">{image}</div></div>',
+                'imageOptions' => ['alt' => '点击换图', 'title' => '点击换图', 'style' => 'cursor: pointer;']
+            ])->label(false); ?>
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-xs-8"><?= $form->field($model, 'rememberMe')->checkbox() ?></div>

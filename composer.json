@@ -29,7 +29,8 @@
     "kucha/ueditor": "*",
     "yii2tech/crontab": "*",
     "overtrue/wechat": "*",
-    "overtrue/pinyin": "*"
+    "overtrue/pinyin": "*",
+    "wbraganca/yii2-dynamicform": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

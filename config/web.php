@@ -48,7 +48,7 @@ $configs['components']['user'] = [
 
 $configs['components']['admin'] = [
     'class' => 'yii\web\User',
-    'identityClass' => 'app\models\Admin',
+    'identityClass' => 'app\modules\admini\models\Admin',
     'enableAutoLogin' => true,
     'loginUrl' => ['/' . ADMIN_MODULE . '/signin'],
     'identityCookie' => ['name' => '__admin_identity'],

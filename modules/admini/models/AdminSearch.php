@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\admini\models;
 
 use Yii;
 use yii\base\Model;
@@ -37,7 +37,7 @@ class AdminSearch extends Admin
         $query = Admin::find();
 
         // add conditions that should always apply here
-        
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => ['defaultOrder' => ['id' => SORT_DESC]]

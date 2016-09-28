@@ -9,12 +9,12 @@
  * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
  */
 
-namespace app\models;
+namespace app\modules\admini\models;
 
 use Yii;
 use yii\base\Model;
 
-class AdminLoginForm extends Model
+class LoginForm extends Model
 {
 
     public $username;
@@ -23,24 +23,36 @@ class AdminLoginForm extends Model
     public $rememberMe = true;
     private $_user = false;
 
-
     public function rules()
     {
         return [
+            // 不需要输入验证码
             [['username', 'password'], 'required'],
+            // 需输入验证码
+            [['username', 'password', 'captcha'], 'required', 'on' => ['captchaRequired']],
+            ['captcha', 'captcha', 'captchaAction' => 'admini/signin/captcha', 'on' => ['captchaRequired']],
+            // 通用规则
             ['rememberMe', 'boolean'],
             ['password', 'validatePassword'],
-            ['captcha', 'captcha', 'captchaAction' => 'admini/signin/captcha'],
+
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'username' => '用户名',
+            'password' => '密码',
+            'captcha' => '验证码'
+        ];
+    }
 
     public function validatePassword($attribute)
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, '错误的用户名或密码.');
             }
         }
     }
@@ -50,7 +62,11 @@ class AdminLoginForm extends Model
     {
         if ($this->validate())
             return Yii::$app->admin->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 60);
-        return false;
+        else {
+            $counter = Yii::$app->session->get('captchaRequired', 0) + 1;
+            Yii::$app->session->set('captchaRequired', $counter);
+            return false;
+        }
     }
 
 

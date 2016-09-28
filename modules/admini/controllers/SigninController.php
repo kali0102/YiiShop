@@ -12,30 +12,19 @@
 namespace app\modules\admini\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\AdminLoginForm;
+use app\modules\admini\models\LoginForm;
 
 class SigninController extends Controller
 {
 
     public $layout = 'main-login';
+    public $attempts = 2;
 
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -49,9 +38,6 @@ class SigninController extends Controller
     public function actions()
     {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'height' => 34,
@@ -63,12 +49,20 @@ class SigninController extends Controller
     }
 
 
+    // 登录
     public function actionIndex()
     {
         if (!Yii::$app->admin->isGuest)
             return $this->goHome();
 
-        $model = new AdminLoginForm;
+        // 实例
+        if ($this->_captchaRequired()) {
+            $model = new LoginForm;
+            $model->scenario = 'captchaRequired';
+        } else
+            $model = new LoginForm;
+
+        // 提交
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->login())
             return $this->goBack();
@@ -76,5 +70,14 @@ class SigninController extends Controller
         return $this->render('index', compact('model'));
     }
 
+
+    /**
+     * 验证用户名及密码输入的错误次数
+     * @return bool
+     */
+    private function _captchaRequired()
+    {
+        return Yii::$app->session->get('captchaRequired', 0) >= $this->attempts;
+    }
 
 }
