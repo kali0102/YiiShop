@@ -24,11 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'mobile')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'placeholder' => '用户名']) ?>
 
-    <?= $form->field($model, 'captcha')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'mobile')->textInput(['placeholder' => '手机号码']) ?>
 
-    <?= $form->field($model, 'smsCode')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'captcha')->textInput(['placeholder' => '图形码']) ?>
+
+    <?= $form->field($model, 'smsCode')->textInput(['placeholder' => '短信验证码']) ?>
 
     <?= $form->field($model, 'password')->passwordInput() ?>
 

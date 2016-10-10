@@ -8,7 +8,8 @@
  */
 
 $configs = [];
-$configs['id'] = 'Y2OS';
+$configs['id'] = 'Yii2';
+$configs['name'] = 'YiiShop';
 $configs['language'] = 'zh-CN';
 $configs['basePath'] = dirname(__DIR__);
 $configs['bootstrap'] = ['log'];
@@ -56,11 +57,9 @@ $configs['components']['admin'] = [
 ];
 
 // 开发模式
-if (YII_ENV_DEV) {
-    $configs['bootstrap'][] = 'debug';
-    $configs['modules']['debug'] = ['class' => 'yii\debug\Module'];
-    $configs['bootstrap'][] = 'gii';
-    $configs['modules']['gii'] = ['class' => 'yii\gii\Module'];
-}
+//$configs['bootstrap'][] = 'debug';
+//$configs['modules']['debug'] = ['class' => 'yii\debug\Module'];
+//$configs['bootstrap'][] = 'gii';
+//$configs['modules']['gii'] = ['class' => 'yii\gii\Module'];
 
 return $configs;

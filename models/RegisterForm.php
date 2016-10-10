@@ -16,6 +16,7 @@ use yii\base\Model;
 class RegisterForm extends Model
 {
 
+    public $username;
     public $mobile;
     public $captcha;
     public $password;
@@ -24,14 +25,15 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['mobile', 'password', 'captcha'], 'required'],
-            ['mobile', 'unique', 'targetClass' => User::className()]
+            [['username', 'mobile', 'password', 'captcha'], 'required'],
+            [['username', 'mobile'], 'unique', 'targetClass' => User::className()]
         ];
     }
 
     public function attributeLabels()
     {
         return [
+            'username' => '用户名',
             'mobile' => '手机号码',
             'smsCode' => '手机验证码',
             'captcha' => '图形码',

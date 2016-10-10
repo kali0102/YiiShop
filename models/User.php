@@ -66,8 +66,8 @@ class User extends ActiveRecord implements IdentityInterface
             [['mobile'], 'string', 'max' => 11],
 
             // 手机注册
-            [['mobile', 'password'], 'required', 'on' => 'register'],
-            ['mobile', 'unique', 'on' => 'register']
+            [['username', 'mobile', 'password'], 'required', 'on' => 'register'],
+            [['username', 'mobile'], 'unique', 'on' => 'register']
         ];
     }
 
@@ -126,13 +126,18 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 通过手机号码查找用户
+     * 通过 手机号码|用户名 查找用户
      * @param $username
      * @return null|static
      */
     public static function findByUsername($username)
     {
-        $user = self::find()->where(['mobile' => $username])->one();
+        $user = self::find()->where([
+            'username' => $username
+        ])->orWhere([
+            'mobile' => $username
+        ])->one();
+
         if ($user)
             return new static($user);
         return null;

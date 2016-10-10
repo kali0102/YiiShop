@@ -34,7 +34,6 @@ class LoginForm extends Model
             // 通用规则
             ['rememberMe', 'boolean'],
             ['password', 'validatePassword'],
-
         ];
     }
 

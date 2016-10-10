@@ -1,8 +1,8 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
@@ -11,18 +11,22 @@ use yii\widgets\Pjax;
 $this->title = '注册用户';
 $this->params['breadcrumbs'][] = ['label' => '注册用户', 'url' => ['index']];
 $this->params['breadcrumbs'][] = '列表';
+
+// 搜索表单ajax提交
+$js = <<<JS
+$(document).on('submit', 'form.form-inline', function(event) {
+    $.pjax.submit(event, '#user-grid');
+});
+JS;
+$this->registerJs($js, \yii\web\View::POS_END);
 ?>
 
 <div class="box">
-    <div class="box-header">
-        <h3 class="box-title">Hover Data Table</h3>
-    </div>
-    <!-- /.box-header -->
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="box-body">
-        <?php Pjax::begin(); ?>
+        <?php Pjax::begin(['id' => 'user-grid']); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            //'filterModel' => $searchModel,
             'summary' => false,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
@@ -30,7 +34,13 @@ $this->params['breadcrumbs'][] = '列表';
                 'username',
                 'mobile',
                 'email:email',
-                 'sex',
+                [
+                    'attribute' => 'sex',
+                    'value' => function ($m) {
+                        return User::$sexList[$m->sex];
+                    }
+                ],
+                'sex',
                 // 'realname',
                 // 'nickname',
                 // 'avatar',
@@ -41,16 +51,15 @@ $this->params['breadcrumbs'][] = '列表';
                 // 'register_type',
                 // 'login_time:datetime',
                 // 'login_ip',
-                 'logins',
-                 'register_time:datetime',
+                'logins',
+                'register_time:datetime',
 
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{update} {delete}',
+                    'template' => '{view}',
                 ],
             ],
         ]); ?>
         <?php Pjax::end(); ?>
     </div>
-    <!-- /.box-body -->
 </div>

@@ -11,21 +11,22 @@ use yii\widgets\Pjax;
 $this->title = '商品品牌';
 $this->params['breadcrumbs'][] = ['label' => '商品品牌', 'url' => ['index']];
 $this->params['breadcrumbs'][] = '列表';
+
+// 搜索表单ajax提交
+$js = <<<JS
+$(document).on('submit', 'form.form-inline', function(event) {
+    $.pjax.submit(event, '#brand-grid');
+});
+JS;
+$this->registerJs($js, \yii\web\View::POS_END);
 ?>
 
 <div class="box">
-    <!--    <div class="box-header">-->
-    <!--        <h3 class="box-title">Hover Data Table</h3>-->
-    <!--    </div>-->
-    <!-- /.box-header -->
-
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="box-body">
-        <?php Pjax::begin(); ?>
+        <?php Pjax::begin(['id' => 'brand-grid']); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            //'filterModel' => $searchModel,
             'summary' => false,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
@@ -49,5 +50,4 @@ $this->params['breadcrumbs'][] = '列表';
         ]); ?>
         <?php Pjax::end(); ?>
     </div>
-    <!-- /.box-body -->
 </div>
