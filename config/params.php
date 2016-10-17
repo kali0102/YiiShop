@@ -29,3 +29,15 @@ return [
         ],
     ]
 ];
+
+$params = [];
+
+$params['adminEmail'] = 'admin@example.com';
+
+// 微信公众号
+$params[] = '';
+$params[] = '';
+$params[] = '';
+$params[] = '';
+$params[] = '';
+$params[] = '';
