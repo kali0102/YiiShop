@@ -13,6 +13,7 @@ namespace app\modules\wechat;
 class Module extends \yii\base\Module
 {
 
+    public $layout = 'main';
     public $controllerNamespace = 'app\modules\wechat\controllers';
 
     public function init()

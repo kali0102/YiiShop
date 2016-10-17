@@ -2,19 +2,22 @@
 
 namespace app\modules\wechat\controllers;
 
+use Yii;
 use yii\web\Controller;
+use EasyWeChat\Foundation\Application;
 
-/**
- * Default controller for the `wechat` module
- */
 class DefaultController extends Controller
 {
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
+
     public function actionIndex()
     {
-        return $this->render('index');
+        $options = \Yii::$app->params['wechat'];
+
+        $app = new Application($options);
+        $js = $app->js;
+
+        return $this->render('index', [
+            'js' => $js
+        ]);
     }
 }

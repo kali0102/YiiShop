@@ -22,6 +22,10 @@ return [
         'log' => [
             'level' => 'debug',
             'file' => (__DIR__) . '/../runtime/wechat.log'
-        ]
+        ],
+        'guzzle' => [
+            'timeout' => 3.0, // 超时时间（秒）
+            'verify' => false, // 关掉 SSL 认证（强烈不建议！！！）
+        ],
     ]
 ];
