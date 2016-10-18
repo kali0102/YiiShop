@@ -1,10 +1,12 @@
 <?php
 
-namespace app\models;
-
-use Yii;
-
 /**
+ * 收货地址模型
+ *
+ * @author kali.liu <kali.liu@qq.com>
+ * @link http://www.fansye.com/
+ * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
+ *
  * This is the model class for table "{{%address}}".
  *
  * @property integer $id
@@ -20,35 +22,42 @@ use Yii;
  *
  * @property User $user
  */
-class Address extends \yii\db\ActiveRecord
+
+namespace app\models;
+
+use Yii;
+use yii\db\ActiveRecord;
+
+class Address extends ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return '{{%address}}';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['user_id', 'receiver', 'mobile', 'zipcode', 'province_id', 'city_id', 'district_id', 'street'], 'required'],
+            [
+                ['user_id', 'receiver', 'mobile', 'zipcode', 'province_id', 'city_id', 'district_id', 'street'],
+                'required'
+            ],
             [['user_id', 'province_id', 'city_id', 'district_id', 'default'], 'integer'],
             [['receiver'], 'string', 'max' => 64],
             [['mobile'], 'string', 'max' => 11],
             [['zipcode'], 'string', 'max' => 6],
             [['street'], 'string', 'max' => 128],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [
+                ['user_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => User::className(),
+                'targetAttribute' => ['user_id' => 'id']
+            ],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -65,18 +74,13 @@ class Address extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return AddressQuery the active query used by this AR class.
-     */
+
     public static function find()
     {
         return new AddressQuery(get_called_class());

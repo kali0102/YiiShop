@@ -1,21 +1,19 @@
 <?php
 
-
 /**
- * 商品规格模型
+ * 商品属性模型
  *
  * @author kali.liu <kali.liu@qq.com>
  * @link http://www.fansye.com/
  * @copyright Copyright &copy; 2016-2068 Fansye.com Inc
  *
- * This is the model class for table "{{%spec}}".
+ * This is the model class for table "{{%attribute}}".
  *
- * @property integer $id
- * @property integer $type
+ * @property string $id
  * @property string $name
  * @property integer $sort
  *
- * @property SpecValue[] $specValues
+ * @property AttributeValue[] $attributeValues
  */
 
 namespace app\models;
@@ -23,35 +21,25 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 
-class Spec extends ActiveRecord
+
+class Attribute extends ActiveRecord
 {
 
     public $values;
     private $_oldValues;
 
-    const TYPE_TEXT = 1;
-    const TYPE_IMAGE = 2;
-
-    public static $typeList = [
-        self::TYPE_TEXT => '文字',
-        self::TYPE_IMAGE => '图片'
-    ];
-
-
     public static function tableName()
     {
-        return '{{%spec}}';
+        return '{{%attribute}}';
     }
 
     public function rules()
     {
         return [
-            [['type', 'name'], 'required'],
-            [['type', 'sort'], 'integer'],
+            [['name', 'values', 'sort'], 'required'],
+            [['sort'], 'integer'],
             ['values', 'safe'],
             [['name'], 'string', 'max' => 64],
-            ['type', 'in', 'range' => [1, 2]],
-            ['sort', 'default', 'value' => 0],
             ['values', 'normalizeValues']
         ];
     }
@@ -60,43 +48,32 @@ class Spec extends ActiveRecord
     {
         return [
             'id' => '主键',
-            'type' => '类型',
             'name' => '名称',
-            'values' => '规格值',
+            'values' => '属性值',
             'sort' => '排序',
         ];
     }
 
-
     public function getSpecValues()
     {
-        return $this->hasMany(SpecValue::className(), ['spec_id' => 'id']);
+        return $this->hasMany(AttributeValue::className(), ['attribute_id' => 'id']);
     }
-
 
     public static function find()
     {
-        return new SpecQuery(get_called_class());
+        return new AttributeQuery(get_called_class());
     }
 
     public function afterFind()
     {
         parent::afterFind();
-        if (!empty($this->specValues)) {
+        if (!empty($this->attributeValues)) {
             $values = [];
-            foreach ($this->specValues as $value)
+            foreach ($this->attributeValues as $value)
                 array_push($values, $value->name);
             $this->_oldValues = $values;
             $this->values = implode(',', $values);
         }
-    }
-
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-        $model = new SpecValue;
-        $model->parseValue($this->values);
     }
 
     public function normalizeValues()
@@ -105,9 +82,8 @@ class Spec extends ActiveRecord
         $this->values = implode(',', array_unique($values));
     }
 
-
     /**
-     * 显示规格值
+     * 显示属性值
      * @param $values
      * @return string
      */

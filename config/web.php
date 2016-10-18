@@ -55,9 +55,9 @@ $configs['components']['admin'] = [
 ];
 
 // 开发模式 gii debug 工具
-//$configs['bootstrap'][] = 'debug';
-//$configs['modules']['debug'] = ['class' => 'yii\debug\Module'];
-//$configs['bootstrap'][] = 'gii';
-//$configs['modules']['gii'] = ['class' => 'yii\gii\Module'];
+$configs['bootstrap'][] = 'debug';
+$configs['modules']['debug'] = ['class' => 'yii\debug\Module'];
+$configs['bootstrap'][] = 'gii';
+$configs['modules']['gii'] = ['class' => 'yii\gii\Module'];
 
 return $configs;

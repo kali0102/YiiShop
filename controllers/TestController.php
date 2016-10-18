@@ -16,6 +16,7 @@ class TestController extends Controller
 {
     public function actionIndex()
     {
+
         $cronTab = new CronTab();
         $cronTab->setJobs([
             ['line' => '* * * * * /usr/local/php5/bin/php /www/web/YiiShop/yii test']

@@ -7,11 +7,11 @@ use Yii;
 /**
  * This is the model class for table "{{%spec_value}}".
  *
- * @property integer $id
- * @property integer $spec_id
+ * @property string $id
+ * @property string $spec_id
  * @property string $name
- *
- * @property Spec $spec
+ * @property string $thumb
+ * @property integer $sort
  */
 class SpecValue extends \yii\db\ActiveRecord
 {
@@ -29,9 +29,10 @@ class SpecValue extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['spec_id', 'name'], 'required'],
-            [['spec_id'], 'integer'],
+            [['spec_id', 'name', 'thumb', 'sort'], 'required'],
+            [['spec_id', 'sort'], 'integer'],
             [['name'], 'string', 'max' => 64],
+            [['thumb'], 'string', 'max' => 128],
             [['spec_id'], 'exist', 'skipOnError' => true, 'targetClass' => Spec::className(), 'targetAttribute' => ['spec_id' => 'id']],
         ];
     }
@@ -45,15 +46,9 @@ class SpecValue extends \yii\db\ActiveRecord
             'id' => '主键',
             'spec_id' => '所属规格',
             'name' => '名称',
+            'thumb' => '缩略图',
+            'sort' => '排序',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSpec()
-    {
-        return $this->hasOne(Spec::className(), ['id' => 'spec_id']);
     }
 
     /**

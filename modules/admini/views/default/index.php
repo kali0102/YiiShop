@@ -1,3 +1,8 @@
+<?php
+$this->title = '控制台';
+$this->params['breadcrumbs'][] = '控制台';
+
+?>
 <div class="admini-default-index">
     <h1><?= $this->context->action->uniqueId ?></h1>
     <p>

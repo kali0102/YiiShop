@@ -2,7 +2,7 @@
 
 /**
  * 管理模块
- * 商品规格控制器
+ * 商品属性控制器
  *
  * @author kali.liu <kali.liu@qq.com>
  * @link http://www.fansye.com/
@@ -11,18 +11,15 @@
 
 namespace app\modules\admini\controllers;
 
-
 use Yii;
-use app\models\Spec;
-use app\models\SpecSearch;
+use app\models\Attribute;
+use app\models\AttributeSearch;
 use yii\filters\VerbFilter;
-use app\models\SpecValue;
-use app\models\Type;
 use app\components\Controller;
+use app\models\AttributeValue;
 
-class SpecController extends Controller
+class AttributeController extends Controller
 {
-
     public function behaviors()
     {
         return [
@@ -35,27 +32,33 @@ class SpecController extends Controller
         ];
     }
 
-    // 列表
+    /**
+     * 列表
+     * @return string
+     */
     public function actionIndex()
     {
-        $searchModel = new SpecSearch();
+        $searchModel = new AttributeSearch;
         $request = Yii::$app->request;
         $dataProvider = $searchModel->search($request->queryParams);
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
-    // 添加
+    /**
+     * 添加
+     * @return string|\yii\web\Response
+     */
     public function actionCreate()
     {
-        $model = new Spec();
+        $model = new Attribute;
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save()) {
             $values = explode(',', $model->values);
             if (!empty($values)) {
-                $specValue = new SpecValue;
+                $attributeValue = new AttributeValue;
                 foreach ($values as $value) {
-                    $_model = clone $specValue;
-                    $_model->spec_id = $model->primaryKey;
+                    $_model = clone $attributeValue;
+                    $_model->attribute_id = $model->primaryKey;
                     $_model->name = $value;
                     $_model->save();
                 }
@@ -65,7 +68,13 @@ class SpecController extends Controller
         return $this->render('create', compact('model'));
     }
 
-    // 编辑
+
+    /**
+     * 编辑
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
@@ -73,10 +82,10 @@ class SpecController extends Controller
         if ($model->load($request->post()) && $model->save()) {
             $values = explode(',', $model->values);
             if (!empty($values)) {
-                $specValue = new SpecValue;
+                $attributeValue = new AttributeValue;
                 foreach ($values as $value) {
-                    $_model = clone $specValue;
-                    $_model->spec_id = $model->primaryKey;
+                    $_model = clone $attributeValue;
+                    $_model->attribute_id = $model->primaryKey;
                     $_model->name = $value;
                     $_model->save();
                 }
@@ -86,7 +95,12 @@ class SpecController extends Controller
         return $this->render('update', compact('model'));
     }
 
-    // 删除
+    /**
+     * 删除
+     * @param $id
+     * @return \yii\web\Response
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionDelete($id)
     {
         $this->loadModel($id)->delete();
@@ -96,8 +110,8 @@ class SpecController extends Controller
     protected function parseValue($model)
     {
         $values = [];
-        if (!empty($model->specValues)) {
-            foreach ($model->specValues as $value)
+        if (!empty($model->attributeValues)) {
+            foreach ($model->attributeValues as $value)
                 array_push($values, $value->name);
         }
         return $values;

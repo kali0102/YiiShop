@@ -63,4 +63,21 @@ class Controller extends \yii\web\Controller
             throw new NotFoundHttpException('', 404);
         return $model;
     }
+
+//    public function loadModel($id, $fields = ['*'], $andWhere = [])
+//    {
+//        $model = null;
+//        $controller = ucfirst(Yii::$app->controller->id);
+//        $code = '$model = \app\models\\' . $controller . '::find()';
+//        $code .= "->select(['id','name'])";
+//        $code .= '->where(["id" => ' . $id . '])';
+//        $andWhere ? $code .= '->andWhere(' . $andWhere . ')' : '';
+//        $code .= '->one()';
+//        echo $code;
+////        die;
+////        eval($code);
+////        if ($model === null)
+////            throw new NotFoundHttpException('', 404);
+////        return $model;
+//    }
 }
