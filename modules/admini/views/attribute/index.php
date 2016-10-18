@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = '列表';
                 [
                     'attribute' => 'values',
                     'value' => function ($m) {
-                        return Attribute::showValues($m->specValues);
+                        return Attribute::showValues($m->attributeValues);
                     }
                 ],
                 'sort',

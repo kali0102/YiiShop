@@ -54,7 +54,7 @@ class Attribute extends ActiveRecord
         ];
     }
 
-    public function getSpecValues()
+    public function getAttributeValues()
     {
         return $this->hasMany(AttributeValue::className(), ['attribute_id' => 'id']);
     }
@@ -64,6 +64,11 @@ class Attribute extends ActiveRecord
         return new AttributeQuery(get_called_class());
     }
 
+    /**
+     * afterFind
+     * 处理属性值
+     * 编辑属性时使用
+     */
     public function afterFind()
     {
         parent::afterFind();
@@ -71,11 +76,28 @@ class Attribute extends ActiveRecord
             $values = [];
             foreach ($this->attributeValues as $value)
                 array_push($values, $value->name);
-            $this->_oldValues = $values;
-            $this->values = implode(',', $values);
+            $this->values = $this->_oldValues = implode(',', $values);
         }
     }
 
+    /**
+     * afterSave
+     * 处理属性值
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $model = new AttributeValue;
+        $model->processValues($this->_oldValues, $this->values, $this);
+    }
+
+
+    /**
+     * 处理属性值
+     * 去除重复
+     */
     public function normalizeValues()
     {
         $values = explode(',', trim($this->values));

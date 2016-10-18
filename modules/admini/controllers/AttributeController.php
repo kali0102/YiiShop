@@ -51,20 +51,10 @@ class AttributeController extends Controller
     public function actionCreate()
     {
         $model = new Attribute;
+        $model->loadDefaultValues();
         $request = Yii::$app->request;
-        if ($model->load($request->post()) && $model->save()) {
-            $values = explode(',', $model->values);
-            if (!empty($values)) {
-                $attributeValue = new AttributeValue;
-                foreach ($values as $value) {
-                    $_model = clone $attributeValue;
-                    $_model->attribute_id = $model->primaryKey;
-                    $_model->name = $value;
-                    $_model->save();
-                }
-            }
+        if ($model->load($request->post()) && $model->save())
             return $this->redirect(['index']);
-        }
         return $this->render('create', compact('model'));
     }
 
@@ -79,19 +69,8 @@ class AttributeController extends Controller
     {
         $model = $this->loadModel($id);
         $request = Yii::$app->request;
-        if ($model->load($request->post()) && $model->save()) {
-            $values = explode(',', $model->values);
-            if (!empty($values)) {
-                $attributeValue = new AttributeValue;
-                foreach ($values as $value) {
-                    $_model = clone $attributeValue;
-                    $_model->attribute_id = $model->primaryKey;
-                    $_model->name = $value;
-                    $_model->save();
-                }
-            }
+        if ($model->load($request->post()) && $model->save())
             return $this->redirect(['index']);
-        }
         return $this->render('update', compact('model'));
     }
 

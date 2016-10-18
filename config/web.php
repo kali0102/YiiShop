@@ -28,7 +28,7 @@ $configs['components']['cache'] = ['class' => 'yii\caching\FileCache'];
 $configs['components']['errorHandler'] = ['errorAction' => 'site/error'];
 $configs['components']['db'] = require(__DIR__ . '/database.php');
 $configs['components']['mailer'] = ['class' => 'yii\swiftmailer\Mailer', 'useFileTransport' => true];
-$configs['components']['urlManager'] = ['enablePrettyUrl' => false, 'showScriptName' => true, 'suffix' => '.html'];
+$configs['components']['urlManager'] = ['enablePrettyUrl' => true, 'showScriptName' => false, 'suffix' => '.html'];
 $configs['components']['log'] = [
     'traceLevel' => YII_DEBUG ? 3 : 0,
     'targets' => [
@@ -55,9 +55,9 @@ $configs['components']['admin'] = [
 ];
 
 // 开发模式 gii debug 工具
-$configs['bootstrap'][] = 'debug';
-$configs['modules']['debug'] = ['class' => 'yii\debug\Module'];
-$configs['bootstrap'][] = 'gii';
-$configs['modules']['gii'] = ['class' => 'yii\gii\Module'];
+//$configs['bootstrap'][] = 'debug';
+//$configs['modules']['debug'] = ['class' => 'yii\debug\Module'];
+//$configs['bootstrap'][] = 'gii';
+//$configs['modules']['gii'] = ['class' => 'yii\gii\Module'];
 
 return $configs;

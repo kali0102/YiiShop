@@ -8,7 +8,7 @@ use yii\web\Controller;
 
 class SigninController extends Controller
 {
-    public $attempts = 2;
+    public $attempts = 8;
 
     public function actions()
     {

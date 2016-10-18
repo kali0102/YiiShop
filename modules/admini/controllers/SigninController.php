@@ -20,7 +20,7 @@ class SigninController extends Controller
 {
 
     public $layout = 'main-login';
-    public $attempts = 1;
+    public $attempts = 6;
 
     public function behaviors()
     {
