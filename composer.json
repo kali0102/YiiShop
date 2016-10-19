@@ -30,7 +30,8 @@
     "yii2tech/crontab": "*",
     "overtrue/wechat": "*",
     "overtrue/pinyin": "*",
-    "wbraganca/yii2-dynamicform": "*"
+    "wbraganca/yii2-dynamicform": "*",
+    "pjkui/kindeditor": "dev-master"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

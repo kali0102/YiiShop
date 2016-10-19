@@ -23,7 +23,6 @@ $otherFieldConfig = [
     <div class="box-header with-border">
         <h3 class="box-title">品牌信息<?php if (!$model->isNewRecord): ?>：<?php echo $model->name; ?><?php endif; ?></h3>
     </div>
-    <!-- /.box-header -->
     <div class="box-body">
         <?php $form = ActiveForm::begin([
             'id' => 'brand-form',
@@ -41,5 +40,4 @@ $otherFieldConfig = [
         </div>
         <?php ActiveForm::end(); ?>
     </div>
-    <!-- /.box-body -->
 </div>

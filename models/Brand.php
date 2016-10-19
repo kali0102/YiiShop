@@ -21,16 +21,20 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
-class Brand extends ActiveRecord {
+class Brand extends ActiveRecord
+{
 
 
-    public static function tableName() {
+    public static function tableName()
+    {
         return '{{%brand}}';
     }
 
 
-    public function rules() {
+    public function rules()
+    {
         return [
             [['name', 'thumb', 'letter'], 'required'],
             [['sort'], 'integer'],
@@ -43,7 +47,8 @@ class Brand extends ActiveRecord {
     }
 
 
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => '主键',
             'name' => '名称',
@@ -54,7 +59,14 @@ class Brand extends ActiveRecord {
         ];
     }
 
-    public static function find() {
+    public static function find()
+    {
         return new BrandQuery(get_called_class());
+    }
+
+    public static function lists()
+    {
+        $models = self::find()->select(['id', 'name'])->all();
+        return ArrayHelper::map($models, 'id', 'name');
     }
 }

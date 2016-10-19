@@ -16,7 +16,6 @@ use app\models\Attribute;
 use app\models\AttributeSearch;
 use yii\filters\VerbFilter;
 use app\components\Controller;
-use app\models\AttributeValue;
 
 class AttributeController extends Controller
 {
@@ -51,7 +50,7 @@ class AttributeController extends Controller
     public function actionCreate()
     {
         $model = new Attribute;
-        $model->loadDefaultValues();
+        //$model->loadDefaultValues();
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save())
             return $this->redirect(['index']);

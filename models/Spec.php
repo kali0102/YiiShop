@@ -37,7 +37,6 @@ class Spec extends ActiveRecord
         self::TYPE_IMAGE => '图片'
     ];
 
-
     public static function tableName()
     {
         return '{{%spec}}';
@@ -46,7 +45,7 @@ class Spec extends ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'name'], 'required'],
+            [['type', 'values', 'name'], 'required'],
             [['type', 'sort'], 'integer'],
             ['values', 'safe'],
             [['name'], 'string', 'max' => 64],
@@ -67,18 +66,21 @@ class Spec extends ActiveRecord
         ];
     }
 
-
     public function getSpecValues()
     {
         return $this->hasMany(SpecValue::className(), ['spec_id' => 'id']);
     }
-
 
     public static function find()
     {
         return new SpecQuery(get_called_class());
     }
 
+    /**
+     * afterFind
+     * 处理规格值
+     * 编辑属性时使用
+     */
     public function afterFind()
     {
         parent::afterFind();
@@ -86,25 +88,32 @@ class Spec extends ActiveRecord
             $values = [];
             foreach ($this->specValues as $value)
                 array_push($values, $value->name);
-            $this->_oldValues = $values;
-            $this->values = implode(',', $values);
+            $this->values = $this->_oldValues = implode(',', $values);
         }
     }
 
-
+    /**
+     * afterSave
+     * 处理规格值
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
         $model = new SpecValue;
-        $model->parseValue($this->values);
+        $model->processValues($this->_oldValues, $this->values, $this);
     }
 
+    /**
+     * 处理规格值
+     * 去除重复
+     */
     public function normalizeValues()
     {
         $values = explode(',', trim($this->values));
         $this->values = implode(',', array_unique($values));
     }
-
 
     /**
      * 显示规格值

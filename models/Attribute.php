@@ -21,7 +21,6 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 
-
 class Attribute extends ActiveRecord
 {
 
@@ -92,7 +91,6 @@ class Attribute extends ActiveRecord
         $model = new AttributeValue;
         $model->processValues($this->_oldValues, $this->values, $this);
     }
-
 
     /**
      * 处理属性值

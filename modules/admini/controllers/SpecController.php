@@ -11,18 +11,14 @@
 
 namespace app\modules\admini\controllers;
 
-
 use Yii;
 use app\models\Spec;
 use app\models\SpecSearch;
 use yii\filters\VerbFilter;
-use app\models\SpecValue;
-use app\models\Type;
 use app\components\Controller;
 
 class SpecController extends Controller
 {
-
     public function behaviors()
     {
         return [
@@ -35,7 +31,10 @@ class SpecController extends Controller
         ];
     }
 
-    // 列表
+    /**
+     * 列表
+     * @return string
+     */
     public function actionIndex()
     {
         $searchModel = new SpecSearch();
@@ -44,62 +43,44 @@ class SpecController extends Controller
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
-    // 添加
+    /**
+     * 添加
+     * @return string|\yii\web\Response
+     */
     public function actionCreate()
     {
         $model = new Spec();
         $request = Yii::$app->request;
-        if ($model->load($request->post()) && $model->save()) {
-            $values = explode(',', $model->values);
-            if (!empty($values)) {
-                $specValue = new SpecValue;
-                foreach ($values as $value) {
-                    $_model = clone $specValue;
-                    $_model->spec_id = $model->primaryKey;
-                    $_model->name = $value;
-                    $_model->save();
-                }
-            }
+        if ($model->load($request->post()) && $model->save())
             return $this->redirect(['index']);
-        }
         return $this->render('create', compact('model'));
     }
 
-    // 编辑
+    /**
+     * 编辑
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
         $request = Yii::$app->request;
-        if ($model->load($request->post()) && $model->save()) {
-            $values = explode(',', $model->values);
-            if (!empty($values)) {
-                $specValue = new SpecValue;
-                foreach ($values as $value) {
-                    $_model = clone $specValue;
-                    $_model->spec_id = $model->primaryKey;
-                    $_model->name = $value;
-                    $_model->save();
-                }
-            }
+        if ($model->load($request->post()) && $model->save())
             return $this->redirect(['index']);
-        }
         return $this->render('update', compact('model'));
     }
 
-    // 删除
+    /**
+     * 删除
+     * @param $id
+     * @return \yii\web\Response
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionDelete($id)
     {
         $this->loadModel($id)->delete();
         return $this->redirect(['index']);
     }
 
-    protected function parseValue($model)
-    {
-        $values = [];
-        if (!empty($model->specValues)) {
-            foreach ($model->specValues as $value)
-                array_push($values, $value->name);
-        }
-        return $values;
-    }
 }
