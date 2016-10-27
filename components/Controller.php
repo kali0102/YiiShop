@@ -33,7 +33,7 @@ class Controller extends \yii\web\Controller
         if ($attachment != null) {
             $webRoot = Yii::getAlias('@webroot');
             $dir = $path == null ? $property : $path;
-            $saveDir = '/static/' . $dir . '/' . date('Ym');
+            $saveDir = '/upload/' . $dir . '/' . date('Ym');
             if (!is_dir($webRoot . $saveDir))
                 FileHelper::createDirectory($webRoot . $saveDir);
             $fileName = Yii::$app->security->generateRandomString(12);

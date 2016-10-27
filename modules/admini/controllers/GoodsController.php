@@ -51,8 +51,11 @@ class GoodsController extends Controller
     {
         $model = new Goods();
         $request = Yii::$app->request;
-        if ($model->load($request->post()) && $model->save())
-            return $this->redirect(['index']);
+        if ($model->load($request->post())) {
+            $this->fileUpload($model, 'thumb');
+            if ($model->save())
+                return $this->redirect(['index']);
+        }
         return $this->render('create', compact('model'));
     }
 
@@ -66,8 +69,11 @@ class GoodsController extends Controller
     {
         $model = $this->loadModel($id);
         $request = Yii::$app->request;
-        if ($model->load($request->post()) && $model->save())
-            return $this->redirect(['index']);
+        if ($model->load($request->post())) {
+            $this->fileUpload($model, 'thumb');
+            if ($model->save())
+                return $this->redirect(['index']);
+        }
         return $this->render('create', compact('model'));
     }
 
