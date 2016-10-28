@@ -31,16 +31,27 @@ $this->registerJs($js, \yii\web\View::POS_END);
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                'username',
-                'mobile',
-                'email:email',
+                [
+                    'label' => '会员',
+                    'format' => 'raw',
+                    'headerOptions' => ['width' => '15%'],
+                    'value' => function ($model) {
+                        return $model->nameText();
+                    }
+                ],
                 [
                     'attribute' => 'sex',
                     'value' => function ($m) {
                         return User::$sexList[$m->sex];
                     }
                 ],
-                'sex',
+                [
+                    'label' => '所在地区',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return $model->areaText();
+                    }
+                ],
                 // 'realname',
                 // 'nickname',
                 // 'avatar',
@@ -49,10 +60,14 @@ $this->registerJs($js, \yii\web\View::POS_END);
                 // 'district_id',
                 // 'street',
                 // 'register_type',
-                // 'login_time:datetime',
-                // 'login_ip',
                 'logins',
-                'register_time:datetime',
+                [
+                    'label' => '最近登录',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return $model->loginText();
+                    }
+                ],
 
                 [
                     'class' => 'yii\grid\ActionColumn',

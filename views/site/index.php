@@ -20,7 +20,8 @@ $this->title = 'My Yii Shop';
             <div class="col-lg-4">
                 <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                    labore
                     et
                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
                     aliquip
@@ -28,12 +29,14 @@ $this->title = 'My Yii Shop';
                     dolore eu
                     fugiat nulla pariatur.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a>
+                </p>
             </div>
             <div class="col-lg-4">
                 <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                    labore
                     et
                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
                     aliquip
@@ -46,7 +49,8 @@ $this->title = 'My Yii Shop';
             <div class="col-lg-4">
                 <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                    labore
                     et
                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
                     aliquip
@@ -54,23 +58,13 @@ $this->title = 'My Yii Shop';
                     dolore eu
                     fugiat nulla pariatur.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a>
+                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii
+                        Extensions &raquo;</a>
                 </p>
             </div>
         </div>
 
     </div>
 </div>
-
-
-<script>
-//    var numToFixed = function (o, n) {
-//        if (o == 0) return o;
-//        var num = Math.pow(10, n)
-//        if (o > 0) return Math.floor(o * num) / num;
-//        if (o < 0) return -(Math.floor(Math.abs(o) * num) / 100);
-//    }
-//
-//
-//    alert(numToFixed(5.55555, 2));
-</script>
+<?php $data = '<script>alert("injection example")</script>'; ?>
+<?php echo \yii\helpers\HtmlPurifier::process($data); ?>

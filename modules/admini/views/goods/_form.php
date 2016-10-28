@@ -35,11 +35,13 @@ $twoFieldConfig = [
             'fieldConfig' => $defultFieldConfig,
         ]); ?>
         <?= $form->field($model, 'name')->textarea(['rows' => 2, 'maxlength' => true, 'placeholder' => '商品的名称']) ?>
+        <?= $form->field($model, 'title')->textarea(['rows' => 2, 'maxlength' => true, 'placeholder' => '标题说明']) ?>
         <?= $form->field($model, 'category_id', $twoFieldConfig)->dropDownList(\app\models\Category::lists(), ['prompt' => '-选择分类-']); ?>
         <?= $form->field($model, 'brand_id', $twoFieldConfig)->dropDownList(\app\models\Brand::lists(), ['prompt' => '-选择品牌-']); ?>
         <?= $form->field($model, 'thumb')->fileInput() ?>
         <?= $form->field($model, 'status', $twoFieldConfig)->dropDownList(\app\models\Goods::$statusList, ['prompt' => '-状态-']); ?>
-        <?= $form->field($model, 'price')->textInput(['maxlength' => true, 'placeholder' => '商品品牌的名称']) ?>
+        <?= $form->field($model, 'price', $twoFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '当前售价']) ?>
+        <?= $form->field($model, 'market_price', $twoFieldConfig)->textInput(['maxlength' => true, 'placeholder' => '市场价格']) ?>
         <?= $form->field($model, 'recommend', $twoFieldConfig)->dropDownList(\app\models\Goods::$recommendList, ['prompt' => '-推荐-']); ?>
         <?= $form->field($model, 'content', $textAreaConfig)->widget('pjkui\kindeditor\KindEditor', [
             'clientOptions' => ['height' => 150]

@@ -24,6 +24,8 @@
  * @property string $collects
  * @property string $score
  * @property integer $stock
+ * $property string $title
+ * @property integer $market_price
  * @property string $create_time
  * @property string $update_time
  */
@@ -109,6 +111,8 @@ class Goods extends ActiveRecord
             'comments' => '评论次数',
             'collects' => '收藏次数',
             'score' => '评分',
+            'title' => '标题',
+            'market_price' => '市场价',
             'create_time' => '添加时间',
             'update_time' => '更新时间',
         ];

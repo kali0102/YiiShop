@@ -30,6 +30,9 @@ use yii\web\IdentityInterface;
  * @property string $openid
  *
  * @property Address[] $addresses
+ * @property Region $province
+ * @property Region $city
+ * @property Region $district
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -101,6 +104,21 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Address::className(), ['user_id' => 'id']);
     }
 
+    public function getProvince()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'province_id']);
+    }
+
+    public function getCity()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'city_id']);
+    }
+
+    public function getDistrict()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'district_id']);
+    }
+
     public static function find()
     {
         return new UserQuery(get_called_class());
@@ -132,15 +150,12 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        $user = self::find()->where([
-            'username' => $username
-        ])->orWhere([
-            'mobile' => $username
-        ])->one();
-
-        if ($user)
-            return new static($user);
-        return null;
+        $usernameWhere = ['username' => $username];
+        $mobileWhere = ['mobile' => $username];
+        $user = self::find()->where($usernameWhere)->orWhere($mobileWhere)->one();
+        if (null == $user)
+            return null;
+        return new static($user);
     }
 
     public function validateAuthKey($authKey)
@@ -211,12 +226,55 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function subscribe($userInfo, $message)
     {
-        $exists = self::find()->where(['openid' => $userInfo->openid])->exists();
+        $where = ['openid' => $userInfo->openid];
+        $exists = self::find()->where($where)->exists();
         if (false == $exists) {
             $user['openid'] = $userInfo->openid;
             $user['register_time'] = $message->CreateTime;
             $user['register_type'] = self::REGISTER_TYPE_SUBSCRIBE;
             Yii::$app->db->createCommand()->insert('{{%user}}', $user)->execute();
         }
+    }
+
+    /**
+     * 基本信息
+     * @return string
+     */
+    public function nameText()
+    {
+        $avatar = $this->avatar ? $this->avatar : '/static/images/avatar.png';
+
+        $string = '<div class="media">';
+        $string .= '<a class="media-left" href="javascript:;" target="_blank">';
+        $string .= '<img src="' . $avatar . '" style="width: 64px; height: 64px;" />';
+        $string .= '</a>';
+        $string .= '<div class="media-body">';
+        $string .= '<h5 class="media-heading">' . $this->username . '</h5>';
+        $string .= '<h6><i>' . $this->mobile . '</i></h6>';
+        $string .= '</div></div>';
+        return $string;
+    }
+
+    /**
+     * 登录信息
+     * @return string
+     */
+    public function loginText()
+    {
+        $string = '<h6><small>' . date('Y/m/d H:i', $this->login_time) . '</small></h6>';
+        $string .= '<h6><small>' . $this->login_ip . '</small></h6>';
+        return $string;
+    }
+
+    /**
+     * 区域信息
+     * @return string
+     */
+    public function areaText()
+    {
+        $province = isset($this->province) ? $this->province->name : '';
+        $city = isset($this->city) ? $this->city->name : '';
+        $district = isset($this->district) ? $this->district->name : '';
+        return $province . ($city ? ('/' . $city) : '') . ($district ? ('/' . $district) : '');
     }
 }
